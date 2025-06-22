@@ -8,17 +8,16 @@ import NoteDetailsClient from './NoteDetailsClient';
 
 interface NoteDetailsPageProps {
   params: {
-    id: string; // ID з динамічного маршруту, завжди рядок
+    id: string;
   };
 }
 
 const NoteDetailsPage = async ({ params }: NoteDetailsPageProps) => {
-  // ОНОВЛЕНО: await прибрано, оскільки params є прямим об'єктом, а не Promise.
   const { id } = params;
   const noteId = parseInt(id, 10);
 
   if (isNaN(noteId)) {
-    return <div>Невірний ID нотатки.</div>;
+    return <div>Incorrect note ID.</div>;
   }
 
   const queryClient = new QueryClient();
