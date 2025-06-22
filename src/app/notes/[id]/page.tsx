@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import {
   QueryClient,
   dehydrate,
@@ -6,9 +7,20 @@ import {
 import { fetchNoteById } from '@/lib/api';
 import NoteDetailsClient from './NoteDetailsClient';
 
-const NoteDetailsPage = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
-  const noteId = parseInt(id, 10);
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: `Note ${params.id}`,
+  };
+}
+
+const NoteDetailsPage = async ({ params }: Props) => {
+  const noteId = parseInt(params.id, 10);
 
   if (isNaN(noteId)) {
     return <div>Incorrect note ID!</div>;
