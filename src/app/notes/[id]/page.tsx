@@ -6,13 +6,7 @@ import {
 import { fetchNoteById } from '@/lib/api';
 import NoteDetailsClient from './NoteDetailsClient';
 
-interface NoteDetailsPageProps {
-  params: {
-    id: string;
-  };
-}
-
-const NoteDetailsPage = async ({ params }: NoteDetailsPageProps) => {
+const NoteDetailsPage = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const noteId = parseInt(id, 10);
 
