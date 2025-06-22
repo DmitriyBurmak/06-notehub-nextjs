@@ -17,7 +17,7 @@ const NoteDetailsPage = async ({ params }: NoteDetailsPageProps) => {
   const noteId = parseInt(id, 10);
 
   if (isNaN(noteId)) {
-    return <div>Incorrect note ID.</div>;
+    return <div>Incorrect note ID!</div>;
   }
 
   const queryClient = new QueryClient();
