@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import {
   QueryClient,
   dehydrate,
@@ -7,23 +6,15 @@ import {
 import { fetchNoteById } from '@/lib/api';
 import NoteDetailsClient from './NoteDetailsClient';
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  return {
-    title: `Note ${params.id}`,
-  };
+interface PageParams {
+  params: { id: string };
 }
 
-const NoteDetailsPage = async ({ params }: Props) => {
+export default async function NoteDetailsPage({ params }: PageParams) {
   const noteId = parseInt(params.id, 10);
 
   if (isNaN(noteId)) {
-    return <div>Incorrect note ID!</div>;
+    return <div>Invalid note ID</div>;
   }
 
   const queryClient = new QueryClient();
@@ -38,6 +29,4 @@ const NoteDetailsPage = async ({ params }: Props) => {
       <NoteDetailsClient />
     </HydrationBoundary>
   );
-};
-
-export default NoteDetailsPage;
+}
