@@ -1,9 +1,9 @@
 import NoteDetailsClient from './NoteDetailsClient';
 
-interface PageParams {
+interface PageProps {
   params: { id: string };
 }
 
-export default function NoteDetailsPage({ params }: PageParams) {
+export default function NoteDetailsPage({ params }: PageProps) {
   return <NoteDetailsClient id={params.id} />;
 }
