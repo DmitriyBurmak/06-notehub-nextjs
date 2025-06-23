@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import { useNotes } from '@/hooks/useNotes';
-import NoteList from '@/components/NoteList/NoteList';
-import Pagination from '@/components/Pagination/Pagination';
-import SearchBox from '@/components/SearchBox/SearchBox';
-import NoteModal from '@/components/NoteModal/NoteModal';
+import { useNotes } from '../../hooks/useNotes';
+import NoteList from '../../components/NoteList/NoteList';
+import Pagination from '../../components/Pagination/Pagination';
+import SearchBox from '../../components/SearchBox/SearchBox';
+import NoteModal from '../../components/NoteModal/NoteModal';
 import css from './NotesPage.module.css';
-import Loader from '@/app/Loading';
-import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import Loader from '../Loading';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 const NotesClient: React.FC = () => {
   const [page, setPage] = useState(1);
