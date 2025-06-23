@@ -1,10 +1,12 @@
 import NoteDetailsClient from './NoteDetailsClient';
 
-interface PageProps {
+interface NoteDetailsPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function NoteDetailsPage({ params }: PageProps) {
+export default async function NoteDetailsPage({
+  params,
+}: NoteDetailsPageProps) {
   const { id } = await params;
 
   return <NoteDetailsClient id={id} />;
