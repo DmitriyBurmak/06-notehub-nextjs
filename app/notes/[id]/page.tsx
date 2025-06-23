@@ -6,12 +6,16 @@ import {
 import { fetchNoteById } from '../../../lib/api';
 import NoteDetailsClient from './NoteDetails.client';
 
+interface NoteDetailsPageProps {
+  params: Promise<{ id: string }>;
+}
+
 export default async function NoteDetailsPage({
   params,
-}: {
-  params: { id: string };
-}) {
-  const noteId = Number(params.id);
+}: NoteDetailsPageProps) {
+  const { id } = await params;
+
+  const noteId = Number(id);
 
   if (isNaN(noteId)) {
     return <div>Неправильний ID нотатки</div>;
