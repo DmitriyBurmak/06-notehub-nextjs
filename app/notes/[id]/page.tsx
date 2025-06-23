@@ -1,4 +1,4 @@
-import NoteDetailsClient from './NoteDetailsClient';
+import NoteDetailsClient from './NoteDetails.client';
 
 interface NoteDetailsPageProps {
   params: Promise<{ id: string }>;
