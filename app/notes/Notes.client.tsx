@@ -8,7 +8,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import NoteModal from '../../components/NoteModal/NoteModal';
 import css from './NotesPage.module.css';
-import Loader from '';
+import Loader from '../Loading';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 const NotesClient: React.FC = () => {
