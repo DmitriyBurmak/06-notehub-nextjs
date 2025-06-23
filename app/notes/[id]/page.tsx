@@ -1,3 +1,4 @@
+// app/notes/[id]/page.tsx
 import {
   QueryClient,
   dehydrate,
@@ -6,13 +7,13 @@ import {
 import { fetchNoteById } from '../../../lib/api';
 import NoteDetailsClient from './NoteDetails.client';
 
-interface NoteDetailsPageProps {
-  params: { id: string };
-}
-
+// Видаляємо явну типізацію NoteDetailsPageProps
+// Next.js надає свій власний PageProps, і ми можемо просто деструктурувати params.
 export default async function NoteDetailsPage({
   params,
-}: NoteDetailsPageProps) {
+}: {
+  params: { id: string }; // Явно типізуємо params тут, без створення окремого інтерфейсу PageProps
+}) {
   const noteId = Number(params.id);
 
   if (isNaN(noteId)) {
