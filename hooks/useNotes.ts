@@ -5,7 +5,7 @@ import {
   UseQueryOptions,
 } from '@tanstack/react-query';
 import { fetchNotes } from '../lib/api';
-import type { NotesResponse } from '../types/note';
+import type { NotesResponse } from '../lib/api';
 
 export const queryClient = new QueryClient();
 

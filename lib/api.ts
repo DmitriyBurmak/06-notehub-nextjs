@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Note, NotesResponse, CreateNotePayload } from '../types/note';
+import { Note, CreateNotePayload } from '../types/note';
 
 axios.defaults.baseURL = 'https://notehub-public.goit.study/api';
 const TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
@@ -15,13 +15,6 @@ const getAuthHeaders = () => {
   };
 };
 
-export const getNotes = async (): Promise<NotesResponse> => {
-  const res = await axios.get<NotesResponse>('/notes', {
-    headers: getAuthHeaders(),
-  });
-  return res.data;
-};
-
 export const fetchNotes = async (
   page: number,
   search: string,
@@ -35,6 +28,7 @@ export const fetchNotes = async (
   if (search.trim() !== '') {
     params.search = search.trim();
   }
+
   const { data } = await axios.get<NotesResponse>('/notes', {
     params,
     headers: getAuthHeaders(),
@@ -50,14 +44,6 @@ export const createNote = async (payload: CreateNotePayload): Promise<Note> => {
   return data;
 };
 
-export const updateNote = async (payload: Note): Promise<Note> => {
-  const { id, ...updateData } = payload;
-  const { data } = await axios.put<Note>(`/notes/${id}`, updateData, {
-    headers: getAuthHeaders(),
-  });
-  return data;
-};
-
 export const deleteNote = async (id: number): Promise<Note> => {
   const { data } = await axios.delete<Note>(`/notes/${id}`, {
     headers: getAuthHeaders(),
@@ -65,13 +51,16 @@ export const deleteNote = async (id: number): Promise<Note> => {
   return data;
 };
 
-export const getSingleNote = async (id: number): Promise<Note> => {
-  const res = await axios.get<Note>(`/notes/${id}`, {
+export const fetchNoteById = async (id: number): Promise<Note> => {
+  const { data } = await axios.get<Note>(`/notes/${id}`, {
     headers: getAuthHeaders(),
   });
-  return res.data;
+  return data;
 };
 
-export const fetchNoteById = async (id: number): Promise<Note> => {
-  return getSingleNote(id);
-};
+export interface NotesResponse {
+  notes: Note[];
+  totalPages: number;
+  total: number;
+  page: number;
+}

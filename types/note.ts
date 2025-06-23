@@ -9,13 +9,6 @@ export interface Note {
   updatedAt: string;
 }
 
-export interface NotesResponse {
-  notes: Note[];
-  totalPages: number;
-  total: number;
-  page: number;
-}
-
 export interface CreateNotePayload {
   title: string;
   content: string;

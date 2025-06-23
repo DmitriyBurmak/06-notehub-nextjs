@@ -10,13 +10,23 @@ import NoteModal from '../../components/NoteModal/NoteModal';
 import css from './NotesPage.module.css';
 import Loader from '../loading';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import type { Note } from '../../types/note';
 
-const NotesClient: React.FC = () => {
+interface NotesClientProps {
+  initialNotes: Note[];
+  initialTotalPages: number;
+}
+
+const NotesClient: React.FC<NotesClientProps> = ({
+  initialNotes,
+  initialTotalPages,
+}) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [debouncedSearch] = useDebounce(search, 300);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const notesPerPage = 12;
+
   const {
     data: notesData,
     isLoading,
@@ -24,7 +34,7 @@ const NotesClient: React.FC = () => {
     error,
   } = useNotes({ page, search: debouncedSearch, perPage: notesPerPage });
 
-  const totalPages = notesData?.totalPages || 1;
+  const totalPages = notesData?.totalPages || initialTotalPages || 1;
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -34,6 +44,8 @@ const NotesClient: React.FC = () => {
     e.preventDefault();
     setIsModalOpen(true);
   };
+
+  const currentNotes = notesData?.notes || initialNotes;
 
   return (
     <div className={css.app}>
@@ -62,11 +74,11 @@ const NotesClient: React.FC = () => {
       {isError && (
         <ErrorMessage message={error?.message || 'Unknown error'} />
       )}{' '}
-      {!isLoading && !isError && notesData && notesData.notes.length === 0 && (
+      {!isLoading && !isError && currentNotes.length === 0 && (
         <div className={css.message}>No notes to display.</div>
       )}
-      {!isLoading && !isError && notesData && notesData.notes.length > 0 && (
-        <NoteList notes={notesData.notes} />
+      {!isLoading && !isError && currentNotes.length > 0 && (
+        <NoteList notes={currentNotes} />
       )}
       {isModalOpen && <NoteModal onClose={handleModalClose} />}
     </div>

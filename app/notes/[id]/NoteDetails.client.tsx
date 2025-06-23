@@ -7,24 +7,23 @@ import type { Note } from '../../../types/note';
 import css from './NoteDetailsClient.module.css';
 
 interface NoteDetailsClientProps {
-  id: string;
+  id: number;
 }
 
 const NoteDetailsClient: React.FC<NoteDetailsClientProps> = ({ id }) => {
-  const noteId = parseInt(id, 10);
-
   const {
     data: note,
     isLoading,
     isError,
     error,
   } = useQuery<Note, Error, Note, ['note', number]>({
-    queryKey: ['note', noteId],
-    queryFn: () => fetchNoteById(noteId),
-    enabled: !isNaN(noteId),
+    queryKey: ['note', id],
+    queryFn: () => fetchNoteById(id),
+    enabled: !isNaN(id),
+    refetchOnMount: false,
   });
 
-  if (isNaN(noteId)) {
+  if (isNaN(id)) {
     return <p className={css.errorMessage}>Incorrect note ID.</p>;
   }
 
