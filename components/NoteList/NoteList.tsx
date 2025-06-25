@@ -36,6 +36,14 @@ export default function NoteList({ notes }: NoteListProps) {
     },
   });
 
+  const handleDeleteClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    noteId: number
+  ) => {
+    e.preventDefault();
+    deleteMutation(noteId);
+  };
+
   if (notes.length === 0) {
     return <Empty />;
   }
@@ -55,10 +63,7 @@ export default function NoteList({ notes }: NoteListProps) {
               </Link>
               <button
                 className={css.button}
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                  e.preventDefault();
-                  deleteMutation(note.id);
-                }}
+                onClick={e => handleDeleteClick(e, note.id)}
                 disabled={isDeletingThisNote}
               >
                 {isDeletingThisNote ? 'We remove...' : 'Delete'}
