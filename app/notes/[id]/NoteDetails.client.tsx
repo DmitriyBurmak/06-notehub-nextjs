@@ -43,19 +43,38 @@ const NoteDetailsClient: React.FC<NoteDetailsClientProps> = ({ id }) => {
     return <p className={css.errorMessage}>Note not found.</p>;
   }
 
-  const formattedDate = note.updatedAt
-    ? `Updated: ${new Date(note.updatedAt).toLocaleDateString()}`
-    : `Created by: ${new Date(note.createdAt).toLocaleDateString()}`;
+  const dateToFormat = note.updatedAt || note.createdAt;
+  const formattedDate = new Date(dateToFormat).toLocaleDateString('uk-UA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+
+  const datePrefix = note.updatedAt ? 'Updated' : 'Created';
 
   return (
     <div className={css.container}>
       <div className={css.item}>
         <div className={css.header}>
           <h2 className={css.title}>{note.title}</h2>
-          <button className={css.editBtn}>Edit a note</button>
+          <button
+            className={css.editBtn}
+            onClick={() => {
+              alert(
+                `Функціональність редагування нотатки з ID: ${note.id} ще не реалізована.`
+              );
+            }}
+          >
+            Edit a note
+          </button>
         </div>
         <p className={css.content}>{note.content}</p>
-        <p className={css.date}>{formattedDate}</p>
+        <p className={css.date}>
+          {datePrefix}: {formattedDate}
+        </p>
       </div>
     </div>
   );
