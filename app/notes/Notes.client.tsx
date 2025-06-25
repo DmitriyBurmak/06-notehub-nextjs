@@ -11,7 +11,7 @@ import css from './NotesPage.module.css';
 import Loader from '../loading';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import type { Note } from '../../types/note';
-import type { NotesResponse } from '../../lib/api';
+import type { NotesResponse } from '../../types/note';
 
 interface NotesClientProps {
   initialNotes: Note[];

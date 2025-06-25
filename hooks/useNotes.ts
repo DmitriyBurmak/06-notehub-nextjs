@@ -1,13 +1,10 @@
 import {
   useQuery,
   useQueryClient,
-  QueryClient,
   UseQueryOptions,
 } from '@tanstack/react-query';
 import { fetchNotes } from '../lib/api';
-import type { NotesResponse } from '../lib/api';
-
-export const queryClient = new QueryClient();
+import type { NotesResponse } from '../types/note';
 
 interface UseNotesParams {
   page: number;
@@ -28,7 +25,8 @@ export const useNotes = (
   params: UseNotesParams,
   options?: UseNotesOptionsWithInitialData
 ) => {
-  const queryClientInstance = useQueryClient();
+  const queryClient = useQueryClient();
+
   const queryKey: NotesQueryKey = [
     'notes',
     params.page,
@@ -39,20 +37,30 @@ export const useNotes = (
   return useQuery<NotesResponse, Error, NotesResponse, NotesQueryKey>({
     queryKey: queryKey,
     queryFn: () => fetchNotes(params.page, params.search, params.perPage),
-    staleTime: 1000 * 60,
+    staleTime: 0,
     retry: 1,
     placeholderData: previousData => {
+      const cachedDataForCurrentKey = queryClient.getQueryData(queryKey);
+      if (cachedDataForCurrentKey) {
+        return cachedDataForCurrentKey as NotesResponse;
+      }
+
       if (previousData) {
         return previousData;
       }
 
       if (params.page > 1) {
-        return queryClientInstance.getQueryData<NotesResponse>([
+        const previousPageKey: NotesQueryKey = [
           'notes',
           params.page - 1,
           params.search,
           params.perPage,
-        ]);
+        ];
+        const cachedDataForPreviousPage =
+          queryClient.getQueryData(previousPageKey);
+        if (cachedDataForPreviousPage) {
+          return cachedDataForPreviousPage as NotesResponse;
+        }
       }
       return undefined;
     },

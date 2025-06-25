@@ -14,3 +14,10 @@ export interface CreateNotePayload {
   content: string;
   tag: NoteTag;
 }
+
+export interface NotesResponse {
+  notes: Note[];
+  totalPages: number;
+  total: number;
+  page: number;
+}

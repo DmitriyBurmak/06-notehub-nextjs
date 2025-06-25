@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { Note, CreateNotePayload } from '../types/note';
+import { NotesResponse } from '../types/note';
 
 axios.defaults.baseURL = 'https://notehub-public.goit.study/api';
 const TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
 const getAuthHeaders = () => {
   if (!TOKEN) {
-    console.error(
+    throw new Error(
       'Authentication token is not set. Please check your .env.local file.'
     );
   }
@@ -57,10 +58,3 @@ export const fetchNoteById = async (id: number): Promise<Note> => {
   });
   return data;
 };
-
-export interface NotesResponse {
-  notes: Note[];
-  totalPages: number;
-  total: number;
-  page: number;
-}
