@@ -17,12 +17,16 @@ interface UseNotesParams {
 
 type NotesQueryKey = ['notes', number, string, number | undefined];
 
+type UseNotesOptionsWithInitialData = Omit<
+  UseQueryOptions<NotesResponse, Error, NotesResponse, NotesQueryKey>,
+  'queryKey' | 'queryFn'
+> & {
+  initialData?: NotesResponse;
+};
+
 export const useNotes = (
   params: UseNotesParams,
-  options?: Omit<
-    UseQueryOptions<NotesResponse, Error, NotesResponse, NotesQueryKey>,
-    'queryKey' | 'queryFn'
-  >
+  options?: UseNotesOptionsWithInitialData
 ) => {
   const queryClientInstance = useQueryClient();
   const queryKey: NotesQueryKey = [
@@ -38,7 +42,10 @@ export const useNotes = (
     staleTime: 1000 * 60,
     retry: 1,
     placeholderData: previousData => {
-      void previousData;
+      if (previousData) {
+        return previousData;
+      }
+
       if (params.page > 1) {
         return queryClientInstance.getQueryData<NotesResponse>([
           'notes',
