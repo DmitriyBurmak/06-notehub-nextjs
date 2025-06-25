@@ -4,7 +4,6 @@ import css from './NoteForm.module.css';
 import type { NoteTag, CreateNotePayload } from '../../types/note';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createNote } from '../../lib/api';
-import { toast } from 'react-hot-toast';
 
 interface FormValues {
   title: string;
@@ -38,11 +37,11 @@ export default function NoteForm({
     mutationFn: (values: CreateNotePayload) => createNote(values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
-      toast.success('Note successfully created!');
+
       onSubmitSuccess();
     },
     onError: (error: Error) => {
-      toast.error(`Error creating a note: ${error.message}`);
+      console.error('Error creating a note:', error);
     },
   });
   const handleSubmit = (values: FormValues) => {
